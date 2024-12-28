@@ -1,1 +1,81 @@
+//student grade tracker system
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+    public class StudentGrade {
+        static class Grade {
+            String subject;
+            double score;
+
+            Grade(String subject, double score) {
+                this.subject = subject;
+                this.score = score;
+            }
+        }
+
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            ArrayList<Grade> grades = new ArrayList<>();
+            String continueInput;
+
+            System.out.println("Welcome to the Student Grade Manager!");
+
+            // Input grades for different subjects
+            do {
+                System.out.print("Enter subject name: ");
+                String subject = scanner.nextLine();
+                System.out.print("Enter grade for " + subject + " (0-100): ");
+                double score = scanner.nextDouble();
+                scanner.nextLine(); // Consume newline
+
+                grades.add(new Grade(subject, score));
+                System.out.print("Do you want to enter another grade? (yes/no): ");
+                continueInput = scanner.nextLine();
+
+            } while (continueInput.equalsIgnoreCase("yes"));
+
+            // Calculate average grade
+            double totalScore = 0;
+            for (Grade grade : grades) {
+                totalScore += grade.score;
+            }
+            double average = totalScore / grades.size();
+
+            // Determine letter grade and GPA
+            char letterGrade = getLetterGrade(average);
+            double gpa = getGPA(letterGrade);
+
+            // Display results
+            System.out.println("\nGrade Summary:");
+            for (Grade grade : grades) {
+                System.out.println(grade.subject + ": " + grade.score);
+            }
+            System.out.printf("Average Grade: %.2f\n", average);
+            System.out.println("Overall Letter Grade: " + letterGrade);
+            System.out.printf("GPA: %.2f\n", gpa);
+
+            scanner.close();
+        }
+
+        public static char getLetterGrade(double average) {
+            if (average >= 90) return 'A';
+            else if (average >= 80) return 'B';
+            else if (average >= 70) return 'C';
+            else if (average >= 60) return 'D';
+            else return 'F';
+        }
+
+        public static double getGPA(char letterGrade) {
+            switch (letterGrade) {
+                case 'A': return 4.0;
+                case 'B': return 3.0;
+                case 'C': return 2.0;
+                case 'D': return 1.0;
+                default: return 0.0;
+            }
+        }
+    }
+
+
 
